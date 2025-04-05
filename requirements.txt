@@ -1,0 +1,13 @@
+fastapi[standard]==0.115.12
+passlib[bcrypt]==1.7.4
+psycopg2==2.9.10
+pycryptodome==3.22.0
+pydantic==2.11.0
+pydantic-settings==2.8.1
+PyJWT==2.10.1
+python-dateutil==2.9.0.post0
+SQLAlchemy==2.0.40
+sqlmodel==0.0.24
+starlette==0.46.1
+uvicorn==0.34.0
+debugpy
