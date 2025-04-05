@@ -1,0 +1,25 @@
+## Operating Systems
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+
+## IDEs
+# VSCode
+**.vscode
+
+# Intellij
+**.idea
+**.iml
+
+## Code Languages
+# Python
+**/__pycache__/
+**.pyc
