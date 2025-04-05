@@ -1,0 +1,15 @@
+meta {
+  name: List all insurance policy products
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/insurancePolicyProducts
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

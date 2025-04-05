@@ -1,0 +1,19 @@
+meta {
+  name: List all insurance policies
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/insurancePolicies
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~bankAccountId: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

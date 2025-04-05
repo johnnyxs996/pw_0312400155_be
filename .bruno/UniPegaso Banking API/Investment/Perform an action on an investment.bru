@@ -1,0 +1,25 @@
+meta {
+  name: Perform an action on an investment
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/investments/:id/action
+  body: json
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "action": ""
+  }
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Get a bank
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/banks/:id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

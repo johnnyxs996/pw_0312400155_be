@@ -1,0 +1,25 @@
+meta {
+  name: Update a bank
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/banks/:id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": ""
+  }
+}

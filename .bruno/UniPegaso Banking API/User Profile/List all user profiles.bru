@@ -1,0 +1,15 @@
+meta {
+  name: List all user profiles
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/userProfiles
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

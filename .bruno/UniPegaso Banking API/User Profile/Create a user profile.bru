@@ -1,0 +1,29 @@
+meta {
+  name: Create a user profile
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/userProfiles
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "",
+    "surname": "",
+    "email": "",
+    "password": "",
+    "taxIdentificationNumber": "",
+    "birthDate": "",
+    "birthCountry": "",
+    "birthState": "",
+    "birthCity": ""
+  }
+}

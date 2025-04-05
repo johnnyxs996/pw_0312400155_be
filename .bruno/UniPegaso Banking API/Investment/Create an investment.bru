@@ -1,0 +1,25 @@
+meta {
+  name: Create an investment
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/investments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "amount": "",
+    "startDate": "",
+    "endDate": "",
+    "investmentProductId": "",
+    "bankAccountId": ""
+  }
+}

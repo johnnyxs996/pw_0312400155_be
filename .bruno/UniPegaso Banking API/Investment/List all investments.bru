@@ -1,0 +1,19 @@
+meta {
+  name: List all investments
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/investments
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~bankAccountId: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

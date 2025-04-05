@@ -1,0 +1,15 @@
+meta {
+  name: List all loan products
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/loanProducts
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

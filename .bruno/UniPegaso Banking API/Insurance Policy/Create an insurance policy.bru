@@ -1,0 +1,24 @@
+meta {
+  name: Create an insurance policy
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/insurancePolicies
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "startDate": "",
+    "endDate": "",
+    "insurancePolicyProductId": "",
+    "bankAccountId": ""
+  }
+}

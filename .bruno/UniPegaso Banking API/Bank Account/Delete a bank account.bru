@@ -1,0 +1,19 @@
+meta {
+  name: Delete a bank account
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/bankAccounts/:id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

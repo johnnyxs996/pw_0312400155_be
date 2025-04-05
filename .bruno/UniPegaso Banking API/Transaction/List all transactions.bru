@@ -1,0 +1,21 @@
+meta {
+  name: List all transactions
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/transactions
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~sourceAccountId: 
+  ~destinationAccountId: 
+  ~involvedAccountId: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

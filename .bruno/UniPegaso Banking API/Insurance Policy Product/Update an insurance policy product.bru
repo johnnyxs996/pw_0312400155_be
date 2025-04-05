@@ -1,0 +1,27 @@
+meta {
+  name: Update an insurance policy product
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/insurancePolicyProducts/:id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "",
+    "annualPremium": "",
+    "coverageCap": ""
+  }
+}

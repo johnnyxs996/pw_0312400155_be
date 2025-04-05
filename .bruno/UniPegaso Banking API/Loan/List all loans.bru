@@ -1,0 +1,19 @@
+meta {
+  name: List all loans
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/loans
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~bankAccountId: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

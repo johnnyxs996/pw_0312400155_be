@@ -1,0 +1,15 @@
+meta {
+  name: List all investment products
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/investmentProducts
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

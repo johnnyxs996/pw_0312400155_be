@@ -1,0 +1,26 @@
+meta {
+  name: Update a loan product
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/loanProducts/:id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "",
+    "rate": ""
+  }
+}

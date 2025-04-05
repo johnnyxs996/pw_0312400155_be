@@ -1,0 +1,23 @@
+meta {
+  name: Create a loan product
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/loanProducts
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "",
+    "rate": "",
+    "type": ""
+  }
+}

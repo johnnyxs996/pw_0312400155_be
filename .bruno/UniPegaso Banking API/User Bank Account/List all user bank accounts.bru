@@ -1,0 +1,19 @@
+meta {
+  name: List all user bank accounts
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/userProfiles/:id/bankAccounts
+  body: none
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

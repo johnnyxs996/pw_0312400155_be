@@ -1,0 +1,19 @@
+meta {
+  name: Delete an insurance policy product
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/insurancePolicyProducts/:id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
