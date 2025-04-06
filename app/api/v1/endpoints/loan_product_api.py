@@ -27,8 +27,7 @@ router = APIRouter()
     response_model_by_alias=True,
 )
 async def loan_products_get(
-    session: SessionDep,
-    authenticated_user_profile: Annotated[UserProfile, Depends(get_current_active_user)]
+    session: SessionDep
 ) -> List[LoanProduct]:
     return await loan_product_service.loan_products_get(
         session)

@@ -27,8 +27,7 @@ router = APIRouter()
     response_model_by_alias=True,
 )
 async def investment_products_get(
-    session: SessionDep,
-    authenticated_user_profile: Annotated[UserProfile, Depends(get_current_active_user)]
+    session: SessionDep
 ) -> List[InvestmentProduct]:
     return await investment_product_service.investment_products_get(
         session)

@@ -27,8 +27,7 @@ router = APIRouter()
     response_model_by_alias=True,
 )
 async def insurance_policy_products_get(
-    session: SessionDep,
-    authenticated_user_profile: Annotated[UserProfile, Depends(get_current_active_user)]
+    session: SessionDep
 ) -> List[InsurancePolicyProduct]:
     return await insurance_policy_product_service.insurance_policy_products_get(
         session)
