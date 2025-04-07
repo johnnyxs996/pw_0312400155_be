@@ -29,4 +29,7 @@ class Bank(BanksPost, table=True):
     swift_code: Optional[str] = Field(
         default_factory=_generate_random_swift_code,
         unique=True, min_length=8, max_length=16,
-        alias="swiftCode")
+        alias="swiftCode",
+        schema_extra=dict(
+            validation_alias="swiftCode",
+            serialization_alias="swiftCode"))
