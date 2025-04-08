@@ -4,11 +4,12 @@ from typing import List, Optional
 from sqlmodel import select
 
 from app.api.common.errors import (
-    ResourceNotFoundError, OperationAmountTooLargeError)
+    ResourceNotFoundError)
 from app.db import SessionDep
 from app.db.models import (
-    BankAccount, Loan, LoansPost)
-from app.services.bank_account import _get_bank_account_from_db
+    Loan, LoansPost,
+    TransactionsPost, TransactionType)
+from app.services.transaction import transactions_post
 
 _log = logging.getLogger(__name__)
 
@@ -22,16 +23,16 @@ async def _get_loan_from_db(
     return loan
 
 
-async def _get_bank_account_with_updated_balance_by_loan(
-    loan: Loan,
-    session: SessionDep
-) -> BankAccount:
-    bank_account = await _get_bank_account_from_db(
-            loan.bank_account_id, session)
-
-    bank_account.balance += loan.amount
-
-    return bank_account
+def _build_loan_transaction(
+    loan: LoansPost
+) -> TransactionsPost:
+    loan_transaction = TransactionsPost(
+        amount=loan.amount,
+        description='Accredito prestito',
+        type=TransactionType.DEPOSIT,
+        destinationAccountId=loan.bank_account_id
+    )
+    return loan_transaction
 
 
 async def loans_get(
@@ -61,11 +62,10 @@ async def loans_post(
 ) -> Loan:
     loan = Loan(
         **loans_post.dict(by_alias=True))
-    updated_bank_account = await _get_bank_account_with_updated_balance_by_loan(
-        loan, session)
+    loan_transaction = _build_loan_transaction(
+        loans_post)
+    await transactions_post(loan_transaction, session)
     session.add(loan)
-    session.add(updated_bank_account)
     session.commit()
     session.refresh(loan)
-    session.refresh(updated_bank_account)
     return loan
