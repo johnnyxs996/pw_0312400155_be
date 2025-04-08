@@ -7,13 +7,9 @@ meta {
 post {
   url: {{baseUrl}}/refresh
   body: none
-  auth: bearer
+  auth: none
 }
 
 params:query {
   ~refresh_token: 
-}
-
-auth:bearer {
-  token: {{token}}
 }

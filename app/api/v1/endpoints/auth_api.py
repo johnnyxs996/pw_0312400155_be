@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from typing import Annotated
+from fastapi import APIRouter
 
 from app.api.common.schemas.response import (
     MessageResponse)
-from app.core.jwt import get_current_active_user
 from app.db import SessionDep
 from app.db.models import (
-    CredentialsPost, Token, UserProfile)
+    CredentialsPost, Token)
 from app.services import (
     auth as auth_service)
 
@@ -67,7 +65,5 @@ async def refresh_token(refresh_token: str):
     summary="Perform logout",
     response_model_by_alias=True,
 )
-async def logout_post(
-    authenticated_user_profile: Annotated[UserProfile, Depends(get_current_active_user)]
-) -> MessageResponse:
+async def logout_post() -> MessageResponse:
     return await auth_service.logout_post()
