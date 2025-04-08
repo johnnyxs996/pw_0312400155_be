@@ -50,13 +50,17 @@ async def _get_bank_accounts_with_updated_balance_by_transaction(
 
     await _validate_transaction_amount(transaction, source_bank_account)
 
+    transaction_amount = transaction.amount
+    transaction_with_fee = transaction_amount + (
+        transaction_amount * transaction.fee / 100)
+
     if transaction.type is TransactionType.TRANSFER:
-        source_bank_account.balance -= transaction.amount
-        destination_bank_account.balance += transaction.amount
+        source_bank_account.balance -= transaction_with_fee
+        destination_bank_account.balance += transaction_amount
     if transaction.type is TransactionType.WITHDRAW:
-        source_bank_account.balance -= transaction.amount
+        source_bank_account.balance -= transaction_with_fee
     if transaction.type is TransactionType.DEPOSIT:
-        destination_bank_account.balance += transaction.amount
+        destination_bank_account.balance += transaction_amount
 
     if source_bank_account is not None:
         involved_accounts.append(source_bank_account)
