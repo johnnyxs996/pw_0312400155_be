@@ -16,3 +16,11 @@ body:json {
     "password": ""
   }
 }
+
+tests {
+  test("save login token", function () {
+    const data = res.getBody();
+    const token = data.access_token;
+    bru.setEnvVar("token", token)
+  });
+}
