@@ -40,7 +40,7 @@ async def get_current_user_profile(
         token_data = TokenData(id=id)
     except InvalidTokenError:
         raise InvalidCredentialsError()
-    user_profile = _get_full_user_profile_from_db(
+    user_profile = await _get_full_user_profile_from_db(
         id=token_data.id, session=session)
     if user_profile is None:
         raise InvalidCredentialsError()
