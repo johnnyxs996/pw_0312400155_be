@@ -1,6 +1,8 @@
 import logging
-from typing import List, Optional
+from typing import Optional
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlmodel import select
 
 from app.api.common.errors import (
@@ -38,14 +40,14 @@ def _build_loan_transaction(
 async def loans_get(
     session: SessionDep,
     bank_account_id: Optional[str]
-) -> List[Loan]:
+) -> Page[Loan]:
     loans_query = select(Loan)
 
     if bank_account_id:
         loans_query = loans_query \
             .where(Loan.bank_account_id == bank_account_id)
 
-    return session.exec(loans_query).all()
+    return paginate(session, loans_query)
 
 
 async def loans_id_get(

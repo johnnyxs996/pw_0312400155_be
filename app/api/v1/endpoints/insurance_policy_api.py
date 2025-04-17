@@ -1,6 +1,7 @@
-from typing import Annotated, List, Optional
+from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, Query
+from fastapi_pagination import Page
 
 from app.api.common.schemas.response import (
     MessageResponse, PostResponse)
@@ -18,7 +19,7 @@ router = APIRouter()
     "/insurancePolicies",
     responses={
         200: {
-            "model": List[InsurancePolicy],
+            "model": Page[InsurancePolicy],
             "description": "A list of insurance policies"
         },
     },
@@ -30,7 +31,7 @@ async def insurance_policies_get(
     session: SessionDep,
     authenticated_user_profile: Annotated[UserProfile, Depends(get_current_active_user)],
     bank_account_id: Optional[str] = Query(None, description="", alias="bankAccountId")
-) -> List[InsurancePolicy]:
+) -> Page[InsurancePolicy]:
     return await insurance_policy_service.insurance_policies_get(
         session, bank_account_id)
 

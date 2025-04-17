@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi_pagination import add_pagination
 
 from app.api import api_router
 from app.api.common.errors import GenericException
@@ -30,6 +31,7 @@ app = FastAPI(
     description="API for managing a financial system",
     lifespan=lifespan
 )
+add_pagination(app)
 
 
 @app.exception_handler(GenericException)

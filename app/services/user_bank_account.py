@@ -1,6 +1,7 @@
 import logging
-from typing import List
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlmodel import select
 
 from app.api.common.errors import ResourceNotFoundError
@@ -23,12 +24,10 @@ async def _get_user_profile_from_db(
 async def user_profiles_id_bank_accounts_get(
     user_profile_id: str,
     session: SessionDep
-) -> List[BankAccount]:
+) -> Page[BankAccount]:
     user_bank_accounts_query = select(BankAccount) \
         .where(BankAccount.user_profile_id == user_profile_id)
-    user_bank_accounts = session.exec(
-        user_bank_accounts_query).all()
-    return user_bank_accounts
+    return paginate(session, user_bank_accounts_query)
 
 
 async def user_profiles_id_bank_accounts_post(

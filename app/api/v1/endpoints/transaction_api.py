@@ -1,6 +1,7 @@
-from typing import Annotated, List, Optional
+from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, Query
+from fastapi_pagination import Page
 
 from app.api.common.schemas.response import (
     MessageResponse, PostResponse)
@@ -17,7 +18,7 @@ router = APIRouter()
     "/transactions",
     responses={
         200: {
-            "model": List[Transaction],
+            "model": Page[Transaction],
             "description": "A list of transactions"
         },
     },
@@ -31,7 +32,7 @@ async def transactions_get(
     source_account_id: Optional[str] = Query(None, description="", alias="sourceAccountId"),
     destination_account_id: Optional[str] = Query(None, description="", alias="destinationAccountId"),
     involved_account_id: Optional[str] = Query(None, description="", alias="involvedAccountId"),
-) -> List[Transaction]:
+) -> Page[Transaction]:
     return await transaction_service.transactions_get(
         session, source_account_id, destination_account_id, involved_account_id)
 

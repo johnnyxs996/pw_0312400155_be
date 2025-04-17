@@ -1,6 +1,7 @@
-from typing import Annotated, List
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
+from fastapi_pagination import Page
 
 from app.api.common.schemas.response import (
     MessageResponse, PostResponse)
@@ -17,7 +18,7 @@ router = APIRouter()
     "/userProfiles/{user_profile_id}/bankAccounts",
     responses={
         200: {
-            "model": List[BankAccount],
+            "model": Page[BankAccount],
             "description": "A list of user bank accounts"
         },
         404: {
@@ -33,7 +34,7 @@ async def user_profiles_id_bank_accounts_get(
     user_profile_id: str,
     session: SessionDep,
     authenticated_user_profile: Annotated[UserProfile, Depends(get_current_active_user)]
-) -> List[BankAccount]:
+) -> Page[BankAccount]:
     return await user_bank_account_service.user_profiles_id_bank_accounts_get(
         user_profile_id, session)
 

@@ -1,6 +1,8 @@
 import logging
-from typing import List, Optional
+from typing import Optional
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlmodel import select
 
 from app.api.common.errors import ResourceNotFoundError, OperationAmountTooLargeError, ResourceAlreadyInStatusError
@@ -58,14 +60,14 @@ async def _get_bank_account_with_updated_balance_by_investment(
 async def investments_get(
     session: SessionDep,
     bank_account_id: Optional[str]
-) -> List[Investment]:
+) -> Page[Investment]:
     investments_query = select(Investment)
 
     if bank_account_id:
         investments_query = investments_query \
             .where(Investment.bank_account_id == bank_account_id)
 
-    return session.exec(investments_query).all()
+    return paginate(session, investments_query)
 
 
 async def investments_id_action_post(

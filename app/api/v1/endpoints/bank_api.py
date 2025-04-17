@@ -1,6 +1,7 @@
-from typing import Annotated, List
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
+from fastapi_pagination import Page
 
 from app.api.common.schemas.response import (
     MessageResponse, PostResponse)
@@ -17,7 +18,7 @@ router = APIRouter()
     "/banks",
     responses={
         200: {
-            "model": List[Bank],
+            "model": Page[Bank],
             "description": "A list of banks"
         },
     },
@@ -27,7 +28,7 @@ router = APIRouter()
 )
 async def banks_get(
     session: SessionDep
-) -> List[Bank]:
+) -> Page[Bank]:
     return await bank_service.banks_get(session)
 
 

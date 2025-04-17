@@ -1,6 +1,8 @@
 import logging
 from typing import List, Optional
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy import or_
 from sqlmodel import select
 
@@ -74,7 +76,7 @@ async def transactions_get(
     source_account_id: Optional[str],
     destination_account_id: Optional[str],
     involved_account_id: Optional[str]
-) -> List[Transaction]:
+) -> Page[Transaction]:
     transactions_query = select(Transaction)
 
     if involved_account_id:
@@ -89,7 +91,7 @@ async def transactions_get(
         transactions_query = transactions_query \
             .where(Transaction.destination_account_id == destination_account_id)
 
-    return session.exec(transactions_query).all()
+    return paginate(session, transactions_query)
 
 
 async def transactions_id_get(

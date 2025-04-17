@@ -1,6 +1,7 @@
 import logging
-from typing import List
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlmodel import select
 
 from app.api.common.errors import ResourceNotFoundError
@@ -23,8 +24,8 @@ async def _get_loan_product_from_db(
 
 async def loan_products_get(
     session: SessionDep
-) -> List[LoanProduct]:
-    return session.exec(select(LoanProduct)).all()
+) -> Page[LoanProduct]:
+    return paginate(session, select(LoanProduct))
 
 
 async def loan_products_id_delete(

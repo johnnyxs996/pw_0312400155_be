@@ -1,6 +1,7 @@
-from typing import Annotated, List
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
+from fastapi_pagination import Page
 
 from app.api.common.schemas.response import (
     MessageResponse, PostResponse)
@@ -18,7 +19,7 @@ router = APIRouter()
     "/insurancePolicyProducts",
     responses={
         200: {
-            "model": List[InsurancePolicyProduct],
+            "model": Page[InsurancePolicyProduct],
             "description": "A list of insurance policy products"
         },
     },
@@ -28,7 +29,7 @@ router = APIRouter()
 )
 async def insurance_policy_products_get(
     session: SessionDep
-) -> List[InsurancePolicyProduct]:
+) -> Page[InsurancePolicyProduct]:
     return await insurance_policy_product_service.insurance_policy_products_get(
         session)
 

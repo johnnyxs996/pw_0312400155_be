@@ -1,6 +1,7 @@
-from typing import Annotated, List, Optional
+from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, Query
+from fastapi_pagination import Page
 
 from app.api.common.schemas.response import (
     MessageResponse, PostResponse)
@@ -15,7 +16,7 @@ router = APIRouter()
     "/loans",
     responses={
         200: {
-            "model": List[Loan],
+            "model": Page[Loan],
             "description": "A list of loans"
         },
     },
@@ -27,7 +28,7 @@ async def loans_get(
     session: SessionDep,
     authenticated_user_profile: Annotated[UserProfile, Depends(get_current_active_user)],
     bank_account_id: Optional[str] = Query(None, description="", alias="bankAccountId"),
-) -> List[Loan]:
+) -> Page[Loan]:
     return await loan_service.loans_get(
         session, bank_account_id)
 

@@ -1,6 +1,7 @@
-from typing import Annotated, List
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
+from fastapi_pagination import Page
 
 from app.api.common.schemas.response import (
     MessageResponse, PostResponse)
@@ -18,7 +19,7 @@ router = APIRouter()
     "/userProfiles",
     responses={
         200: {
-            "model": List[UserProfile],
+            "model": Page[UserProfile],
             "description": "A list of user profiles"
         },
     },
@@ -29,7 +30,7 @@ router = APIRouter()
 async def user_profiles_get(
     session: SessionDep,
     authenticated_user_profile: Annotated[UserProfile, Depends(get_current_active_user)]
-) -> List[UserProfile]:
+) -> Page[UserProfile]:
     return await user_profile_service.user_profiles_get(
         session)
 

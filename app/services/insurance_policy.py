@@ -1,6 +1,8 @@
 import logging
-from typing import List, Optional
+from typing import Optional
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlmodel import select
 
 from app.api.common.errors import ResourceNotFoundError, OperationAmountTooLargeError, ResourceAlreadyInStatusError
@@ -62,14 +64,14 @@ async def _get_bank_account_with_updated_balance_by_insurance_policy(
 async def insurance_policies_get(
     session: SessionDep,
     bank_account_id: Optional[str]
-) -> List[InsurancePolicy]:
+) -> Page[InsurancePolicy]:
     insurance_policies_query = select(InsurancePolicy)
 
     if bank_account_id:
         insurance_policies_query = insurance_policies_query \
             .where(InsurancePolicy.bank_account_id == bank_account_id)
 
-    return session.exec(insurance_policies_query).all()
+    return paginate(session, insurance_policies_query)
 
 
 async def insurance_policies_id_action_post(

@@ -1,6 +1,7 @@
-from typing import Annotated, List
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
+from fastapi_pagination import Page
 
 from app.api.common.schemas.response import (
     MessageResponse, PostResponse)
@@ -18,7 +19,7 @@ router = APIRouter()
     "/loanProducts",
     responses={
         200: {
-            "model": List[LoanProduct],
+            "model": Page[LoanProduct],
             "description": "A list of loan products"
         },
     },
@@ -28,7 +29,7 @@ router = APIRouter()
 )
 async def loan_products_get(
     session: SessionDep
-) -> List[LoanProduct]:
+) -> Page[LoanProduct]:
     return await loan_product_service.loan_products_get(
         session)
 

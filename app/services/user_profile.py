@@ -1,6 +1,7 @@
 import logging
-from typing import List
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlmodel import select
 from sqlalchemy.exc import IntegrityError
 
@@ -67,8 +68,8 @@ async def _get_full_user_profile_from_db(
 
 async def user_profiles_get(
     session: SessionDep
-) -> List[UserProfile]:
-    return session.exec(select(UserProfile)).all()
+) -> Page[UserProfile]:
+    return paginate(session, select(UserProfile))
 
 
 async def user_profiles_id_delete(

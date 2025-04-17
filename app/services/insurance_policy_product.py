@@ -1,6 +1,7 @@
 import logging
-from typing import List
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlmodel import select
 
 from app.api.common.errors import ResourceNotFoundError
@@ -23,8 +24,8 @@ async def _get_insurance_policy_product_from_db(
 
 async def insurance_policy_products_get(
     session: SessionDep
-) -> List[InsurancePolicyProduct]:
-    return session.exec(select(InsurancePolicyProduct)).all()
+) -> Page[InsurancePolicyProduct]:
+    return paginate(session, select(InsurancePolicyProduct))
 
 
 async def insurance_policy_products_id_delete(
