@@ -1,8 +1,6 @@
 from datetime import datetime
 from dateutil import parser
 
-from fastapi import HTTPException
-
 
 def string_to_date(date_str: str) -> datetime:
     if date_str is None:

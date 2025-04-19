@@ -1,12 +1,10 @@
 import random
 import string
 import uuid
-from enum import Enum as EnumType
 from datetime import datetime
 from typing import Optional
 
-from sqlmodel import Column, Field, SQLModel
-from sqlmodel import Enum as SQLEnum
+from sqlmodel import Field, SQLModel
 
 
 def _generate_random_iban_code() -> str:
