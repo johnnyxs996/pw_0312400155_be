@@ -11,7 +11,7 @@ from .endpoints import (
 
 api_router = APIRouter()
 
-api_router.include_router(auth_api.router)
+api_router.include_router(auth_api.router, prefix='/auth')
 api_router.include_router(bank_account_api.router)
 api_router.include_router(bank_api.router)
 api_router.include_router(insurance_policy_api.router)

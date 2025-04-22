@@ -51,19 +51,3 @@ async def login_post(
 )
 async def refresh_token(refresh_token: str):
     return await auth_service.refresh_token(refresh_token)
-
-
-@router.post(
-    "/logout",
-    responses={
-        200: {
-            "model": MessageResponse,
-            "description": "Logout message"
-        },
-    },
-    tags=["Auth"],
-    summary="Perform logout",
-    response_model_by_alias=True,
-)
-async def logout_post() -> MessageResponse:
-    return await auth_service.logout_post()
