@@ -4,7 +4,7 @@ from app.api.common.schemas.response import (
     MessageResponse)
 from app.db import SessionDep
 from app.db.models import (
-    CredentialsPost, Token)
+    CredentialsPost, RefreshCredentials, Token)
 from app.services import (
     auth as auth_service)
 
@@ -49,5 +49,6 @@ async def login_post(
     tags=["Auth"],
     summary="Refresh auth token",
 )
-async def refresh_token(refresh_token: str):
-    return await auth_service.refresh_token(refresh_token)
+async def refresh_token(refresh_token_post: RefreshCredentials) -> Token:
+    return await auth_service.refresh_token(
+        refresh_token_post.refresh_token)
