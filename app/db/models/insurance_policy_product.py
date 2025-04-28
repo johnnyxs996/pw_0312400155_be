@@ -2,6 +2,7 @@ import uuid
 from enum import Enum
 from typing import Optional
 
+from pydantic import field_validator
 from sqlmodel import Field, SQLModel
 
 
@@ -25,6 +26,12 @@ class InsurancePolicyProductPut(SQLModel):
         schema_extra=dict(
             validation_alias="coverageCap",
             serialization_alias="coverageCap"))
+    
+    @field_validator("annual_premium", "coverage_cap", mode="before")
+    def round_decimals(cls, value):
+        if isinstance(value, float):
+            return round(value, 2)
+        return value
 
 
 class InsurancePolicyProductsPost(InsurancePolicyProductPut):

@@ -2,6 +2,7 @@ import uuid
 from enum import Enum
 from typing import Optional
 
+from pydantic import field_validator
 from sqlmodel import Field, SQLModel
 
 
@@ -14,6 +15,12 @@ class LoanProductType(str, Enum):
 class LoanProductPut(SQLModel):
     name: Optional[str] = Field(None)
     rate: Optional[float] = Field(None)
+
+    @field_validator("rate", mode="before")
+    def round_decimals(cls, value):
+        if isinstance(value, float):
+            return round(value, 2)
+        return value
 
 
 class LoanProductsPost(LoanProductPut):

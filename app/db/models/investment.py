@@ -49,6 +49,12 @@ class InvestmentsPost(SQLModel):
         schema_extra=dict(
             validation_alias="bankAccountId",
             serialization_alias="bankAccountId"))
+    
+    @field_validator("amount", mode="before")
+    def round_decimals(cls, value):
+        if isinstance(value, float):
+            return round(value, 2)
+        return value
 
     @field_validator("start_date", "end_date", mode="before")
     @classmethod

@@ -3,9 +3,12 @@ from enum import Enum
 from datetime import datetime
 from typing import Optional
 
-from pydantic import model_validator
+from pydantic import model_validator, field_validator
 from sqlmodel import Field, SQLModel
 
+
+import logging
+_log = logging.getLogger(__name__)
 
 class TransactionType(str, Enum):
     WITHDRAW = "Withdraw"
@@ -34,6 +37,13 @@ class TransactionsPost(SQLModel):
         schema_extra=dict(
             validation_alias="destinationAccountId",
             serialization_alias="destinationAccountId"))
+    
+    @field_validator("amount", "fee", mode="before")
+    def round_decimals(cls, value):
+        if isinstance(value, float):
+            return round(value, 2)
+        return value
+
 
     @model_validator(mode="after")
     def check_transaction_type_validity(self):
