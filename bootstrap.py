@@ -9,6 +9,7 @@ from app.db.models import (
     InsurancePolicyProduct, InsurancePolicyProductType,
     InvestmentProduct, InvestmentProductType,
     LoanProduct, LoanProductType,
+    Transaction, TransactionType,
     User, UserProfile)
 from app.utils.secrets import get_password_hash
 
@@ -434,6 +435,56 @@ def bootstrap_bank_accounts():
         _log.debug('[+] bank_accounts bootstrap done!')
 
 
+def bootstrap_transactions():
+    def _add_transaction(session, transaction_type, *bank_account_ids):
+        amount = random.uniform(1, 200)
+        transaction = Transaction(
+            amount=round(amount, 2),
+            fee=random.randint(0, 5),
+            type=transaction_type
+        )
+
+        if transaction_type is TransactionType.DEPOSIT:
+            transaction.destination_account_id = bank_account_ids[0]
+            transaction.description = "Deposito contanti"
+        elif transaction_type is TransactionType.WITHDRAW:
+            transaction.source_account_id = bank_account_ids[0]
+            transaction.description = "Prelievo contanti"
+        elif transaction_type is TransactionType.TRANSFER:
+            transaction.source_account_id = bank_account_ids[0]
+            transaction.destination_account_id = bank_account_ids[1]
+            if amount <= 20:
+                transaction.description = "Acquisto Libro"
+            elif amount <= 100:
+                transaction.description = "Acquisto Orologio"
+            else:
+                transaction.description = "Acquisto Notebook"
+        session.add(transaction)
+
+    with get_session_sync() as session:
+        if session.exec(select(Transaction)).all():
+            _log.debug('[-] Skipping transactions bootstrap...')
+            return
+
+        _log.debug('[i] Starting transactions bootstrap...')
+
+        bank_accounts = session.exec(select(BankAccount)).all()
+
+        for index, source_bank_account in enumerate(bank_accounts):
+            destination_account_index = None
+            while destination_account_index is None or destination_account_index == index:
+                destination_account_index = random.randint(0, len(bank_accounts) - 1)
+            destination_bank_account = bank_accounts[destination_account_index]
+            _add_transaction(session, TransactionType.DEPOSIT, source_bank_account.id)
+            _add_transaction(session, TransactionType.WITHDRAW, source_bank_account.id)
+            _add_transaction(
+                session, TransactionType.TRANSFER, source_bank_account.id,
+                destination_bank_account.id)
+
+        session.commit()
+        _log.debug('[+] transactions bootstrap done!')
+
+
 if __name__ == "__main__":
     create_db_and_tables()
     bootstrap_banks()
@@ -442,3 +493,4 @@ if __name__ == "__main__":
     bootstrap_loan_products()
     bootstrap_users_and_profiles()
     bootstrap_bank_accounts()
+    bootstrap_transactions()
